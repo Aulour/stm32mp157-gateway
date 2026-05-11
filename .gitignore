@@ -35,3 +35,6 @@ board-files/home-root/PSRT_app/
 # STM32CubeIDE build outputs
 m4/Gateway/CM4/Debug/
 m4/Gateway/CA7/Debug/
+
+.vscode-ctags
+.claude/
