@@ -81,7 +81,7 @@ stm32mp157-gateway/
 │   │   └── a7-rpmsg-bridge.service      # A7 RPMsg 桥接服务
 │   └── lib-firmware/firmware/           # 板端 /lib/firmware 固件镜像备份
 ├── .vscode/c_cpp_properties.json        # VSCode 打开工程根目录时的 C/C++ IntelliSense 配置
-└── STM32MP157_GATEWAY_PROJECT.md        # 当前项目总说明文档
+└── README.md        # 当前项目总说明文档
 ```
 
 说明：
