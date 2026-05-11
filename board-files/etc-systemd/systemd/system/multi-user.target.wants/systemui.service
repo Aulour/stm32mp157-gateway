@@ -1,0 +1,12 @@
+[Unit]
+Description=Start Systemui
+After=systemd-remount-fs.service
+DefaultDependencies=no
+
+[Service]
+EnvironmentFile=/etc/default/atk-qtenv
+Type=simple
+ExecStart=/opt/ui/systemui -platform linuxfb
+
+[Install]
+WantedBy=multi-user.target

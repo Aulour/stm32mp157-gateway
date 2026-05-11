@@ -1,0 +1,15 @@
+[Unit]
+Description=A7 RPMsg bridge for PSRT app
+After=start_m4.service
+Requires=start_m4.service
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/home/root/a7
+ExecStart=/usr/bin/python3 /home/root/a7/rpmsg_bridge.py --device /dev/ttyRPMSG0 --data /home/root/PSRT_app/backend/data.json --cache /home/root/PSRT_app/backend/rpmsg_cache.jsonl --cache-max-lines 10000 --cache-max-bytes 5242880 --cache-status-interval 30 --member-id 1 --period 1000
+Restart=always
+RestartSec=2
+
+[Install]
+WantedBy=multi-user.target

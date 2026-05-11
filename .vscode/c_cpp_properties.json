@@ -1,0 +1,29 @@
+{
+    "configurations": [
+        {
+            "name": "STM32MP157 Gateway CM4",
+            "includePath": [
+                "${workspaceFolder}/m4/Gateway/CM4/Core/Inc",
+                "${workspaceFolder}/m4/Gateway/CM4/Core/Src",
+                "${workspaceFolder}/m4/Gateway/Drivers/STM32MP1xx_HAL_Driver/Inc",
+                "${workspaceFolder}/m4/Gateway/Drivers/STM32MP1xx_HAL_Driver/Inc/Legacy",
+                "${workspaceFolder}/m4/Gateway/Drivers/STM32MP1xx_HAL_Driver/Src",
+                "${workspaceFolder}/m4/Gateway/Drivers/CMSIS/Device/ST/STM32MP1xx/Include",
+                "${workspaceFolder}/m4/Gateway/Drivers/CMSIS/Include",
+                "${workspaceFolder}/m4/Gateway/Middlewares/Third_Party/OpenAMP/open-amp/lib/include",
+                "${workspaceFolder}/m4/Gateway/Middlewares/Third_Party/OpenAMP/libmetal/lib/include",
+                "${workspaceFolder}/m4/Gateway/CM4/OPENAMP",
+                "${workspaceFolder}/m4/Gateway/Common/System"
+            ],
+            "defines": [
+                "USE_HAL_DRIVER",
+                "STM32MP157Dxx",
+                "CORE_CM4"
+            ],
+            "cStandard": "c11",
+            "cppStandard": "c++14",
+            "intelliSenseMode": "gcc-arm"
+        }
+    ],
+    "version": 4
+}

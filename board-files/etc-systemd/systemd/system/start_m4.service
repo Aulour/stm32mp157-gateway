@@ -1,0 +1,13 @@
+[Unit]
+Description=Start M4 firmware
+After=multi-user.target
+
+[Service]
+Type=oneshot
+User=root
+ExecStart=/home/root/M4_hw/start.sh
+ExecStop=/home/root/M4_hw/stop.sh
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

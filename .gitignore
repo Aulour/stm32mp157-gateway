@@ -1,0 +1,37 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.venv.backup/
+
+# Node / React
+node_modules/
+build/
+dist/
+
+# Logs and runtime   data
+*.log
+*.lock
+rpmsg_cache.jsonl
+data.cache.jsonl
+
+# OS / IDE
+.DS_Store
+.idea/
+*.swp
+
+# Nested git repos
+software/PSRT_app/.git/
+
+# Board/runtime virtualenv backups
+board-files/home-root/PSRT_app/.venv/
+board-files/home-root/PSRT_app/.venv.backup/
+board-files/home-root/PSRT_app/frontend/node_modules/
+software/PSRT_app/frontend/node_modules/
+software/PSRT_app/.venv/
+software/PSRT_app/.venv.backup/
+board-files/home-root/PSRT_app/
+
+# STM32CubeIDE build outputs
+m4/Gateway/CM4/Debug/
+m4/Gateway/CA7/Debug/
