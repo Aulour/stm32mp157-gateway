@@ -36,8 +36,7 @@ board-files/home-root/PSRT_app/
 m4/Gateway/CM4/Debug/
 m4/Gateway/CA7/Debug/
 
+# Local Claude/editor config
 .vscode-ctags
 .claude/
-
-.vscode-ctags
-.claude/
+CLAUDE.md
