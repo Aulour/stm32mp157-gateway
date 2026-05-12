@@ -166,6 +166,7 @@ def empty_records():
     return {key: [] for key in SCHEMA_KEYS}
 
 
+# 持久化 JSONL FIFO 缓存：追加新记录，超限时丢弃最旧记录。
 def jsonl_dumps(data):
     return json.dumps(data, ensure_ascii=False, separators=(",", ":")) + "\n"
 
@@ -191,11 +192,13 @@ def enforce_cache_limits_locked(path, max_lines, max_bytes):
 
     original_count = len(lines)
     if max_lines > 0 and len(lines) > max_lines:
+        # 保留最新记录，相当于环形缓冲区覆盖头部的旧数据。
         lines = lines[-max_lines:]
 
     if max_bytes > 0:
         total_bytes = sum(len(line.encode("utf-8")) for line in lines)
         while lines and total_bytes > max_bytes:
+            # 字节数超限时，也从 FIFO 缓存最旧的一端开始删除。
             total_bytes -= len(lines[0].encode("utf-8"))
             lines = lines[1:]
 
@@ -220,6 +223,7 @@ def append_cache_entry(path, entry, max_lines, max_bytes):
             cache_file.write(jsonl_dumps(entry))
             cache_file.flush()
             os.fsync(cache_file.fileno())
+        # 先追加再在同一把锁内裁剪，保证缓存保持环形缓冲区语义。
         dropped, kept = enforce_cache_limits_locked(path, max_lines, max_bytes)
         fcntl.flock(lock_file, fcntl.LOCK_UN)
     return dropped, kept
@@ -283,6 +287,7 @@ def read_cache_batch(path, limit):
         fcntl.flock(lock_file, fcntl.LOCK_EX)
         entries = []
         with open(path, "r", encoding="utf-8") as cache_file:
+            # 上传时先取最旧记录，保持 RPMsg 接收顺序。
             for line in cache_file:
                 if len(entries) >= limit:
                     break
@@ -303,6 +308,7 @@ def remove_cache_prefix(path, count):
         fcntl.flock(lock_file, fcntl.LOCK_EX)
         with open(path, "r", encoding="utf-8") as cache_file:
             lines = cache_file.readlines()
+        # 上传成功后删除已发送记录，推进 FIFO 头部。
         removed = min(count, len(lines))
         atomic_write_lines(path, lines[removed:])
         fcntl.flock(lock_file, fcntl.LOCK_UN)
@@ -442,6 +448,7 @@ def main():
                 records = parse_line(line, args.member_id)
                 if any(records.values()):
                     entry = build_cache_entry(line, records, args.member_id)
+                    # 先落盘再上传，离线期间的数据之后还能补传。
                     dropped, kept = append_cache_entry(args.cache, entry, args.cache_max_lines, args.cache_max_bytes)
                     if dropped:
                         print(f"cache overflow: dropped={dropped} kept={kept}", flush=True)
